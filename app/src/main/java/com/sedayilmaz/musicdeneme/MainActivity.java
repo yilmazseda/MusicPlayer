@@ -13,10 +13,13 @@ import android.widget.ListView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
      ListView listView ;
      Bitmap selectedImage;
+     ArrayList<MusicList> songList;
+     //Müzik için
      MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +29,26 @@ public class MainActivity extends AppCompatActivity {
         listView=findViewById(R.id.music_listview);
 
         ArrayList<Music> musics = new ArrayList<>();
-        musics.add(new Music("ABC's",R.drawable.abc,R.raw.affet));
-        musics.add(new Music("Old Mc Donald's Had A Farm",R.drawable.farm,R.raw.myvoice));
-        /*musics.add(new Music("Five Little Ducks",R.drawable.ducks));
-        musics.add(new Music("Little Frog",R.drawable.littlefrog));
+        musics.add(new Music("ABC's",R.drawable.abc));
+        musics.add(new Music("Old Mc Donald's Had A Farm",R.drawable.farm));
+        musics.add(new Music("Five Little Ducks",R.drawable.ducks));
+       // musics.add(new Music("Little Frog",R.drawable.littlefrog));
         musics.add(new Music("Johny Johny Yes Papap",R.drawable.johnyyespapa));
         musics.add(new Music("Baby Shark",R.drawable.babyshark));
         musics.add(new Music("Finger Family",R.drawable.fingerfamily));
-        musics.add(new Music("This Is A Happy Face",R.drawable.happyface));
-        musics.add(new Music("Wheels On The Bus",R.drawable.onthebus));*/
-
+        //musics.add(new Music("This Is A Happy Face",R.drawable.happyface));
+      //  musics.add(new Music("Wheels On The Bus",R.drawable.onthebus));
 
         //Müzik Aktarma
+
+        songList = new ArrayList<>();
+        songList.add(new MusicList(R.raw.abc));
+        songList.add(new MusicList(R.raw.oldmacdonald));
+        songList.add(new MusicList(R.raw.fivelittleducks));
+        songList.add(new MusicList(R.raw.yespapa));
+        songList.add(new MusicList(R.raw.babyshark));
+        songList.add(new MusicList(R.raw.fingerfamily));
+
 
 
 
@@ -46,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         Bitmap abc= BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.abc);
         Bitmap mcDonald= BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.farm);
         Bitmap fiveDucks= BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.ducks);
-        Bitmap littleFrog = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.littlefrog);
+        //Bitmap littleFrog = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.littlefrog);
         Bitmap yesPapa=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.johnyyespapa);
         Bitmap babyShark=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.babyshark);
         Bitmap fingerFamily=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.fingerfamily);
-        Bitmap happyFace=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.happyface);
-        Bitmap onTheBus=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.onthebus);
+        //Bitmap happyFace=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.happyface);
+        //Bitmap onTheBus=BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.onthebus);
 
 
         //Görselleri liste içersinde tutuyorum.
@@ -59,12 +70,12 @@ public class MainActivity extends AppCompatActivity {
         images.add(abc);
         images.add(mcDonald);
         images.add(fiveDucks);
-        images.add(littleFrog);
+        //images.add(littleFrog);
         images.add(yesPapa);
         images.add(babyShark);
         images.add(fingerFamily);
-        images.add(happyFace);
-        images.add(onTheBus);
+        //images.add(happyFace);
+        //images.add(onTheBus);
 
 
         //Adapter: Veriler ile view bağlanır ve kullanıcıya gösterilir.
@@ -83,8 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 //Diğer aktiviteye göndereceğimiz şeyler burada tanımlanır daha sonra intent yapılır
 
                //Müzik Alma
-
-
+                if(mediaPlayer != null)
+                {
+                    mediaPlayer.release();
+                }
+                int songId = songList.get(position).getSong();
+                intent.putExtra("Song_List",songId);
+                mediaPlayer=MediaPlayer.create(MainActivity.this,songId);
+                mediaPlayer.start();
 
 
                 //getInstance() : obje oluşturmak içib bu metodu çağırdık.Zaten bunda obje oluşturuluyor.
@@ -95,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 

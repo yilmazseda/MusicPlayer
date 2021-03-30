@@ -7,12 +7,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class PlayMusicActivity extends AppCompatActivity {
 
-    ImageView musicImage,prevImage,playImage,nextImage;
+    ImageView musicImage,playImage,pauseImage,stopImage;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,22 +22,60 @@ public class PlayMusicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_music_activitiy);
 
         musicImage=findViewById(R.id.musicImageID);
-        prevImage=findViewById(R.id.prevID);
-        playImage=findViewById(R.id.playID);
-        nextImage=findViewById(R.id.nexID);
+        playImage=findViewById(R.id.play);
+        stopImage=findViewById(R.id.stop);
+        pauseImage=findViewById(R.id.pause);
+
+        //DİĞER AKTİVİTEDEN GELEN MÜZİKLERİ AL
+        /*int number = getIntent().getExtras().getInt("Song_List");
+        mediaPlayer=MediaPlayer.create(this,number);*/
+        int number = getIntent().getExtras().getInt("Song_List");
+
+
+        playImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(mediaPlayer==null)
+                {
+                    mediaPlayer=MediaPlayer.create(PlayMusicActivity.this,number);
+                }
+                mediaPlayer.start();
+
+            }
+        });
+
+        pauseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mediaPlayer!=null)
+                {
+                    mediaPlayer.pause();
+                }
+            }
+        });
+
+        stopImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mediaPlayer != null)
+                {
+                    mediaPlayer.release();
+                    mediaPlayer=null;
+                }
+            }
+        });
 
 
 
-        //Diğer aktiviteden gelen verileri al
+
+
+
+         //DİĞER AKTİVİTEDEN GELEN BİTMAP ÖĞESİNİ AL
         Intent intent = getIntent();
         Singleton singleton = Singleton.getInstance(); //gönderilen singleton objesi alındı
         musicImage.setImageBitmap(singleton.getChosenImage());//view'a görsel set edildi.
 
-
     }
-
-
-
-
 
 }

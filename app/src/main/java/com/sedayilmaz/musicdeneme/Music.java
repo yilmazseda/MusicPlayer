@@ -5,14 +5,14 @@ public class Music {
     //sadece get kullanılacak
     private String musicName;
     private int musicImageID;
-    private int songID;
+    //private int songID;
 
 
-    public Music(String musicName,int musicImageID,int songID)
+    public Music(String musicName,int musicImageID)
     {
         this.musicName=musicName;
         this.musicImageID=musicImageID;
-        this.songID=songID;
+        //this.songID=songID;
     }
 
 
@@ -27,7 +27,7 @@ public class Music {
     {
         return musicImageID;
     }
-    private int getsongID(){return songID;}
+    //private int getsongID(){return songID;}
 
 
 }
